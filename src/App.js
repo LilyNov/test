@@ -1,14 +1,14 @@
 import "./App.css";
 import Table from "./components/Table/Table";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 function App() {
+  const queryClient = new QueryClient();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Contacts</h1>
-        <Table />
-      </header>
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <Table />
+    </QueryClientProvider>
   );
 }
 
