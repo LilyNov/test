@@ -4,7 +4,7 @@ import { fetchClients } from "../../service/home-api";
 export default function Table() {
   const { data, status } = useQuery("clients", fetchClients);
   const defaultAvatar =
-    "https://dummyimage.com/480x600/2a2a2a/ffffff&text=Movie+foto";
+    "https://dummyimage.com/480x600/2a2a2a/ffffff&text=foto";
 
   return (
     <div>
