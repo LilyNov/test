@@ -1,34 +1,10 @@
 import { useQuery } from "react-query";
-import * as Constants from "../../constants";
-console.log(Constants.GRAPHQL_API);
-console.log(Constants.GET_CLIENT_QUERY);
-
-const fetchGraphQl = async () => {
-  await fetch("https://test-task.expane.pro/api/graphql", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      query: `
-            {
-    getClients {
-  id
-  firstName
-  lastName
-  phone
-  avatarUrl
-}
-}
-            `,
-    }),
-  });
-};
+import { fetchClients } from "../../service/home-api";
 
 export default function Table() {
-  const { data, status } = useQuery("contacts", fetchGraphQl);
-
-  console.log(data);
+  const { data, status } = useQuery("clients", fetchClients);
+  const defaultAvatar =
+    "https://dummyimage.com/480x600/2a2a2a/ffffff&text=Movie+foto";
 
   return (
     <div>
@@ -37,15 +13,35 @@ export default function Table() {
       {status === "loading" && <p>...Loading</p>}
 
       {status === "success" && (
-        <>
-          <ul>
-            {/* {data.getClients.map(
+        <table>
+          <thead>
+            <tr>
+              <th>firstName</th>
+              <th>lastName</th>
+              <th>phone</th>
+              <th>avatar</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {data?.data.getClients.map(
               ({ id, firstName, lastName, phone, avatarUrl }) => (
-                <li key={id}></li>
+                <tr key={id + phone}>
+                  <td>
+                    <img
+                      style={{ heigth: 100, width: 100 }}
+                      src={avatarUrl ? avatarUrl : defaultAvatar}
+                      alt={phone}
+                    />
+                  </td>
+                  <td>{firstName}</td>
+                  <td>{lastName}</td>
+                  <td>{phone}</td>
+                </tr>
               )
-            )} */}
-          </ul>
-        </>
+            )}
+          </tbody>
+        </table>
       )}
     </div>
   );
